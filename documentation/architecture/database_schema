@@ -15,18 +15,13 @@
 
 CREATE TABLE Threads (
 	board_id UNSIGNED INTEGER NOT NULL,
-	id       UNSIGNED INTEGER NOT NULL /*** TODO : ASSIGN RANDOM ID ***/,
-
-	creation_datetime DATETIME    NOT NULL DEFAULT NOW()
-	ip_address_hash   BINARY(60) NOT NULL
-
-	name    VARCHAR(32),
-	subject VARCHAR(64),
-	comment VARCHAR(4096),
-	file_id UNSIGNED INTEGER,
+	op_id UNSIGNED INTEGER NOT NULL,
+	
+	title VARCHAR(64),
 
 	PRIMARY KEY (board_id, id),
-	FOREIGN KEY (board_id) REFERENCES Boards(id) ON DELETE CASCADE
+	FOREIGN KEY (board_id) REFERENCES Boards(id) ON DELETE CASCADE,
+	FOREIGN KEY (op_id) REFERENCES Posts(id) ON DELETE CASCADE
 );
 
 
