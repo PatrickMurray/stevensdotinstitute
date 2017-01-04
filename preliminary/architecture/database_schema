@@ -20,9 +20,9 @@ CREATE TABLE Threads (
 	creation_datetime DATETIME    NOT NULL DEFAULT NOW()
 	ip_address_hash   BINARY(60) NOT NULL
 
-	name    VARCHAR(),
-	subject VARCHAR(),
-	commend VARCHAR(),
+	name    VARCHAR(32),
+	subject VARCHAR(64),
+	comment VARCHAR(4096),
 	file_id UNSIGNED INTEGER,
 
 	PRIMARY KEY (board_id, id),

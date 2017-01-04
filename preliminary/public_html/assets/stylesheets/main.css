@@ -25,6 +25,7 @@ body {
 *:before,
 *:after {
 	box-sizing: inherit;
+	max-width: 100%;
 }
 
 
@@ -34,12 +35,6 @@ a:active,
 a:hover,
 a:visited {
 	color: gray;
-}
-
-
-code {
-	font-size: x-small;
-	font-family: 'Roboto Mono', monospace;
 }
 
 
@@ -53,7 +48,7 @@ code {
 }
 
 
-header {
+body > header {
 	padding-top:   1em;
 	margin-bottom: 1em;
 	
@@ -65,7 +60,7 @@ header {
 }
 
 
-header .logo {
+body > header .logo {
 	font-family: 'Open Sans', sans-serif;
 	text-align: center;
 	font-weight: bold;
@@ -73,7 +68,7 @@ header .logo {
 }
 
 
-header .logo sub {
+body > header .logo sub {
 	padding: 0.2em 0.5em;
 	font-size: small;
 	
@@ -82,7 +77,7 @@ header .logo sub {
 }
 
 
-header nav {
+body > header nav {
 	color: rgb(163, 38, 56);
 	font-weight: bold;
 	
@@ -91,7 +86,7 @@ header nav {
 }
 
 
-header nav ul {
+body > header nav ul {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -105,17 +100,17 @@ header nav ul {
 }
 
 
-header nav a,
-header nav a:link,
-header nav a:active,
-header nav a:hover,
-header nav a:visited {
+body > header nav a,
+body > header nav a:link,
+body > header nav a:active,
+body > header nav a:hover,
+body > header nav a:visited {
 	color: black;
 	text-decoration: none;
 }
 
 
-header nav li sup {
+body > header nav li sup {
 	margin-left: 0.2em;
 	padding: 0.2em 0.4em;
 
@@ -124,12 +119,74 @@ header nav li sup {
 	color: white;
 }
 
+
 .main {
 	flex: 1;
 }
 
 
-footer {
+.board header {
+	text-align: center;
+}
+
+
+.board header p {
+	font-size: larger;
+}
+
+
+.board .thread,
+.board .thread .post {
+	/* overflow: auto; */
+}
+
+
+.board .thread .content figure {
+	float: left;
+
+	margin-top:    0;
+	margin-bottom: 1em;
+	margin-left:   0;
+	margin-right:  1em;
+	
+	max-width: 20em;
+}
+
+
+.board .thread .content figure.expanded {
+	float: none;
+	
+	margin: 0;
+	
+	max-width: 100%;
+}
+
+
+@media (max-width: 30em) {
+	.board .thread .content figure {
+		float: none;
+		
+		margin: 0;
+		
+		max-width: 100%;
+	}
+}
+
+
+.board .thread .content,
+.board .post .content {
+	text-align: justify;
+}
+
+
+.board .thread .content code,
+.board .post .content code {
+	font-size: x-small;
+	font-family: 'Roboto Mono', monospace;
+}
+
+
+body > footer {
 	background: white;
 	color: black;
 
@@ -138,13 +195,13 @@ footer {
 }
 
 
-footer .container {
+body > footer .container {
 	margin-top:    1em;
 	margin-bottom: 1em;
 }
 
 
-footer nav ul {
+body > footer nav ul {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
