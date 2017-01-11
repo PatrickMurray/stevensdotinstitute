@@ -2,7 +2,10 @@
 
 
 $CONFIGURATION = [
-	'PRODUCTION' => FALSE,
+	'ENVIRONMENT' => [
+		'PRODUCTION'  => FALSE,
+		'MAINTENANCE' => TRUE
+	],
 
 	'AUTHENTICATION' => [
 		'DATABASE' => [
@@ -10,16 +13,12 @@ $CONFIGURATION = [
 			'DATABASE' => 'stevensdotinstitute',
 			'USERNAME' => NULL,
 			'PASSWORD' => NULL
-		],
-
-		'WEBHOOK' => [
-			'SECRET' => NULL
 		]
 	]
 ];
 
 
-if ($CONFIGURATION['PRODUCTION'])
+if ($CONFIGURATION['ENVIRONMENT']['PRODUCTION'])
 {
 	ini_set('log_errors', 1);
 	ini_set('error_reporting', 0);
