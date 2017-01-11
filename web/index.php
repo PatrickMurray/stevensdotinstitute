@@ -54,7 +54,7 @@ if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'])
 }
 
 
-$dirpath  = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH]);
+$dirpath  = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $resource = explode('/', $dirpath);
 array_shift($resource);
 
