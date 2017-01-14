@@ -131,7 +131,8 @@ function download_file($file_id, $extension)
 }
 
 
-if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'])
+if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'] &&
+    $_GET['override'] !== $CONFIGURATION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'])
 {
 	/* SITE CURRENTLY IN MAINTENANCE MODE */
 	print('<h1>Temporarily Down for Maintenance</h1>');

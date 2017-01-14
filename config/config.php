@@ -13,6 +13,9 @@ $CONFIGURATION = [
 			'NAME'     => 'stevensdotinstitute',
 			'USERNAME' => NULL,
 			'PASSWORD' => NULL
+		],
+		'MAINTENANCE' => [
+			'OVERRIDE' => NULL
 		]
 	]
 ];
