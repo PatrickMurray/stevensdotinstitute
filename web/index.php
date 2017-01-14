@@ -205,6 +205,7 @@ switch ($resource[0])
 					exit(-1);
 				}
 				/* TODO */
+				print('Hello');
 				break;
 			case 'POST':
 				/* TODO */
