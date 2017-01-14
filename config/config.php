@@ -10,7 +10,7 @@ $CONFIGURATION = [
 	'AUTHENTICATION' => [
 		'DATABASE' => [
 			'HOST'     => 'localhost',
-			'DATABASE' => 'stevensdotinstitute',
+			'NAME'     => 'stevensdotinstitute',
 			'USERNAME' => NULL,
 			'PASSWORD' => NULL
 		]
