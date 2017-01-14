@@ -28,10 +28,8 @@ function db_conn($hostname, $db_name, $username, $password)
 	}
 
 	$sql  = 'CREATE DATABASE IF NOT EXISTS ' . $db_name . ';';
-	
-	$sql .= 'USE ' . $db_name . ';';
 
-	$sql .= 'CREATE TABLE IF NOT EXISTS Boards (';
+	$sql .= 'CREATE TABLE IF NOT EXISTS ' . $db_name . '.Boards (';
 	$sql .= '	id                 UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
 	$sql .= '	abbreviation       VARCHAR(3)       NOT NULL,';
 	$sql .= '	title              VARCHAR(16)      NOT NULL,';
@@ -43,7 +41,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	$sql .= '	PRIMARY KEY (id)';
 	$sql .= ');';
 
-	$sql .= 'CREATE TABLE IF NOT EXISTS Threads (';
+	$sql .= 'CREATE TABLE IF NOT EXISTS ' . $db_name . '.Threads (';
 	$sql .= '	board_id UNSIGNED INTEGER NOT NULL,';
 	$sql .= '	op_id    UNSIGNED INTEGER NOT NULL,';
 	$sql .= '	title    VARCHAR(64),';
@@ -52,7 +50,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	$sql .= '	FOREIGN KEY (op_id)    REFERENCES Posts(id)  ON DELETE CASCADE';
 	$sql .= ');';
 
-	$sql .= 'CREATE TABLE IF NOT EXISTS Posts (';
+	$sql .= 'CREATE TABLE IF NOT EXISTS ' . $db_name . '.Posts (';
 	$sql .= '	board_id          UNSIGNED INTEGER NOT NULL,';
 	$sql .= '	thread_id         UNSIGNED INTEGER NOT NULL,';
 	$sql .= '	id                UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
@@ -67,7 +65,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	$sql .= '	FOREIGN KEY (file_id)   REFERENCES Files(id)   ON DELETE CASCADE';
 	$sql .= ');';
 
-	$sql .= 'CREATE TABLE IF NOT EXISTS Files (';
+	$sql .= 'CREATE TABLE IF NOT EXISTS ' . $db_name . '.Files (';
 	$sql .= '	id UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
 	$sql .= '	creation_datetime DATETIME NOT NULL DEFAULT NOW(),';
 	$sql .= '	ip_address_hash BINARY(60) NOT NULL,';
