@@ -194,6 +194,11 @@ switch ($resource[0])
 					$CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'],
 					$CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD']
 				);
+				if ($connection < 0)
+				{
+					print("<h1>A database connection error has occurred!</h1>");
+					exit(-1);
+				}
 				/* TODO */
 				break;
 			case 'POST':
