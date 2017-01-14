@@ -24,7 +24,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	catch (PDOException $exception)
 	{
 		log_error(__FILE__, __LINE__, 'failed to connect to database: '. $exception->getMessage());
-		return -1;
+		throw new RuntimeException('connection failure');
 	}
 
 	$sql  = 'CREATE DATABASE IF NOT EXISTS ' . $db_name . ';';
@@ -86,7 +86,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	catch (PDOException $exception)
 	{
 		log_error(__FILE__, __LINE__, 'unable to initiate database: '. $exception->getMessage());
-		return -1;
+		throw new RuntimeException('init statement failure');
 	}
 
 	return $connection;
@@ -192,15 +192,18 @@ switch ($resource[0])
 		switch ($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
-				$connection = db_conn(
-					$CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'],
-					$CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'],
-					$CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'],
-					$CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD']
-				);
-				if ($connection < 0)
+				try
 				{
-					print("<h1>A database connection error has occurred!</h1>");
+					$connection = db_conn(
+						$CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'],
+						$CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'],
+						$CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'],
+						$CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD']
+					);
+				}
+				catch (RuntimeException $exception)
+				{
+					print("<h1>A database connection error has occurred!</h1>" . $exception->getMessage());
 					exit(-1);
 				}
 				/* TODO */
