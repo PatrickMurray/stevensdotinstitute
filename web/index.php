@@ -15,7 +15,11 @@ function db_conn($hostname, $db_name, $username, $password)
 {
 	try
 	{
-		$connection = new PDO('mysql:host=' . $hostname, $username, $password);
+		$connection = new PDO(
+			'mysql:host=' . $hostname . ';charset=utf8',
+			$username,
+			$password
+		);
 	}
 	catch (PDOException $exception)
 	{
