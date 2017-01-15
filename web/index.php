@@ -16,7 +16,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	try
 	{
 		$connection = new PDO(
-			'mysql:host=' . $hostname . ';dbname='. $db_name,
+			'mysql:host=' . $hostname,
 			$username,
 			$password
 		);
@@ -29,7 +29,11 @@ function db_conn($hostname, $db_name, $username, $password)
 		throw new RuntimeException('connection failure');
 	}
 
-	$sql  = 'CREATE TABLE IF NOT EXISTS `Boards` (';
+	$sql  = 'CREATE DATABASE IF NOT EXISTS ' . $db_name . ';';
+
+	$sql .= 'USE ' . $db_name . ';';
+
+	$sql .= 'CREATE TABLE IF NOT EXISTS `Boards` (';
 	$sql .= '	`id`                 UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
 	$sql .= '	`abbreviation`       VARCHAR(3)       NOT NULL,';
 	$sql .= '	`title`              VARCHAR(16)      NOT NULL,';
@@ -78,8 +82,7 @@ function db_conn($hostname, $db_name, $username, $password)
 
 	try
 	{
-		$statement = $connection->prepare($sql);
-		$statement->execute();
+		$statement->exec($sql);
 	}
 	catch (PDOException $exception)
 	{
