@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Threads (
 	`op_id`    INTEGER UNSIGNED NOT NULL,
 	`title`    VARCHAR(64),
 
-	PRIMARY KEY (`board_id`, `id`),
+	PRIMARY KEY (`board_id`, `op_id`),
 	FOREIGN KEY (`board_id`) REFERENCES Boards(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`op_id`)    REFERENCES Posts(`id`)  ON DELETE CASCADE
 );
