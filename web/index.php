@@ -16,10 +16,12 @@ function db_conn($hostname, $db_name, $username, $password)
 	try
 	{
 		$connection = new PDO(
-			'mysql:host=' . $hostname . ';dbname='. $db_name .';charset=utf8',
+			'mysql:host=' . $hostname . ';dbname='. $db_name,
 			$username,
 			$password
 		);
+
+		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, TRUE);
 	}
 	catch (PDOException $exception)
 	{
