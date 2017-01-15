@@ -82,7 +82,7 @@ function db_conn($hostname, $db_name, $username, $password)
 
 	try
 	{
-		$statement->exec($sql);
+		$connection->exec($sql);
 	}
 	catch (PDOException $exception)
 	{
