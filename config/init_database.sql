@@ -10,12 +10,12 @@ CREATE TABLE IF NOT EXISTS Boards (
 	`title`              VARCHAR(16)      NOT NULL,
 	`description`        VARCHAR(256)     NOT NULL,
 
-	`creation_datetime`  DATETIME         NOT NULL DEFAULT NOW(),
+	`creation_datetime`  DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`published_status`   BOOLEAN          NOT NULL DEFAULT 0,
 	`published_datetime` DATETIME,
 	`new_branding`       BOOLEAN          NOT NULL DEFAULT 1,
 
-	PRIMARY KEY (id)
+	PRIMARY KEY (`id`)
 );
 
 
@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS Threads (
 	`op_id`    INTEGER UNSIGNED NOT NULL,
 	`title`    VARCHAR(64),
 
-	PRIMARY KEY (board_id, id),
-	FOREIGN KEY (board_id) REFERENCES Boards(id) ON DELETE CASCADE,
-	FOREIGN KEY (op_id)    REFERENCES Posts(id)  ON DELETE CASCADE
+	PRIMARY KEY (`board_id`, `id`),
+	FOREIGN KEY (`board_id`) REFERENCES Boards(`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`op_id`)    REFERENCES Posts(`id`)  ON DELETE CASCADE
 );
 
 
@@ -35,24 +35,24 @@ CREATE TABLE IF NOT EXISTS Posts (
 	`thread_id`         INTEGER UNSIGNED NOT NULL,
 	`id`                INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
-	`creation_datetime` DATETIME         NOT NULL DEFAULT NOW(),
+	`creation_datetime` DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`ip_address_hash`   BINARY(60)       NOT NULL,
 
 	`name`              VARCHAR(32),
 	`comment`           TEXT,
 	`file_id`           INTEGER UNSIGNED,
 
-	PRIMARY KEY (board_id, thread_id, id),
-	FOREIGN KEY (board_id)  REFERENCES Boards(id)  ON DELETE CASCADE,
-	FOREIGN KEY (thread_id) REFERENCES Threads(id) ON DELETE CASCADE,
-	FOREIGN KEY (file_id)   REFERENCES Files(id)   ON DELETE CASCADE
+	PRIMARY KEY (`board_id`, `thread_id`, `id`),
+	FOREIGN KEY (`board_id`)  REFERENCES Boards(`id`)  ON DELETE CASCADE,
+	FOREIGN KEY (`thread_id`) REFERENCES Threads(`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`file_id`)   REFERENCES Files(`id`)   ON DELETE CASCADE
 );
 
 
 CREATE TABLE IF NOT EXISTS Files (
 	`id`                INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 
-	`creation_datetime` DATETIME         NOT NULL DEFAULT NOW(),
+	`creation_datetime` DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`ip_address_hash`   BINARY(60)       NOT NULL,
 	`poster_name`       VARCHAR(32),
 
