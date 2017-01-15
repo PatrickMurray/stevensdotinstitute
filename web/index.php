@@ -21,7 +21,7 @@ function db_conn($hostname, $db_name, $username, $password)
 			$password
 		);
 
-		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, TRUE);
+		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
 	}
 	catch (PDOException $exception)
 	{
@@ -82,7 +82,8 @@ function db_conn($hostname, $db_name, $username, $password)
 
 	try
 	{
-		$connection->exec($sql);
+		$statement = $connection->query($sql);
+		$statement->execute();
 	}
 	catch (PDOException $exception)
 	{
