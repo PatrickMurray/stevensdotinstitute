@@ -27,7 +27,7 @@ function db_conn($hostname, $db_name, $username, $password)
 		throw new RuntimeException('connection failure');
 	}
 
-	$sql .= 'CREATE TABLE IF NOT EXISTS `Boards` (';
+	$sql  = 'CREATE TABLE IF NOT EXISTS `Boards` (';
 	$sql .= '	`id`                 UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
 	$sql .= '	`abbreviation`       VARCHAR(3)       NOT NULL,';
 	$sql .= '	`title`              VARCHAR(16)      NOT NULL,';
