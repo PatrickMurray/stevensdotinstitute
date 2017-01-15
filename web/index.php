@@ -82,8 +82,17 @@ function db_conn($hostname, $db_name, $username, $password)
 
 	try
 	{
-		$statement = $connection->query($sql);
-		$statement->execute();
+		if (($statement = $connection->prepare($sql)) == FALSE)
+		{
+			log_error(__FILE__, __LINE__, 'failed to prepare init statement');
+			throw new RuntimeException('init statement preparation failed');
+		}
+		
+		if (($statement->execute()) == FALSE)
+		{
+			log_error(__FILE__, __LINE__, 'failed to execute init statemate');
+			throw new RuntimeException('failed to execute init statement');
+		}
 	}
 	catch (PDOException $exception)
 	{
