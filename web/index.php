@@ -16,7 +16,7 @@ function db_conn($hostname, $db_name, $username, $password)
 	try
 	{
 		$connection = new PDO(
-			'mysql:host=' . $hostname . ';charset=utf8',
+			'mysql:host=' . $hostname . ';dbname='. $db_name .';charset=utf8',
 			$username,
 			$password
 		);
@@ -26,10 +26,6 @@ function db_conn($hostname, $db_name, $username, $password)
 		log_error(__FILE__, __LINE__, 'failed to connect to database: '. $exception->getMessage());
 		throw new RuntimeException('connection failure');
 	}
-
-	$sql  = 'CREATE DATABASE IF NOT EXISTS ' . $db_name . ';';
-
-	$sql .= 'USE ' . $db_name . ';';
 
 	$sql .= 'CREATE TABLE IF NOT EXISTS `Boards` (';
 	$sql .= '	`id`                 UNSIGNED INTEGER NOT NULL AUTO_INCREMENT,';
