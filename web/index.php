@@ -94,7 +94,7 @@ switch ($resource[0])
 				break;
 			default:
 				/* TODO : unaccepted method */
-				break
+				break;
 		}
 		break;
 }
