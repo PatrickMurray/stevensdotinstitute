@@ -4,78 +4,9 @@
 require_once('../config/config.php');
 
 
-function log_error($file, $line, $message)
-{
-	error_log($file . ':' . $line . ': ' . $message);
-	return;
-}
-
-
-function strtoint($str)
-{
-	$intval = intval($str);
-
-	if (strval($intval) !== $str)
-	{
-		return -1;
-	}
-
-	return $intval;
-}
-
-
-function db_conn($hostname, $db_name, $username, $password)
-{
-	try
-	{
-		$connection = new PDO(
-			'mysql:host=' . $hostname . ';dbname=' . $db_name,
-			$username,
-			$password
-		);
-
-		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
-	}
-	catch (PDOException $exception)
-	{
-		log_error(__FILE__, __LINE__, 'failed to connect to database: '. $exception->getMessage());
-		throw new RuntimeException('connection failure');
-	}
-
-	return $connection;
-}
-
-
-function submit_thread($board)
-{
-	return;
-}
-
-
-function submit_post($board, $thread)
-{
-	return;
-}
-
-
-function view_board($board, $page)
-{
-	return;
-}
-
-
-function view_thread($board, $thread)
-{
-	return;
-}
-
-
-function download_file($file_id, $extension)
-{
-	return;
-}
-
-
+require_once('../src/functions.php');
+require_once('../src/posts.php');
+require_once('../src/view.php');
 
 
 if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'] &&
