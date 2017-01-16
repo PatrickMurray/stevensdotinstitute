@@ -21,6 +21,33 @@ function strtoint($str)
 }
 
 
+function valid_maintenance_override()
+{
+	if (!isset($_GET['override']))
+	{
+		return FALSE;
+	}
+
+	if ($_GET['override'] !== $CONFIGURATION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'])
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+function tokenize_request_uri($request_uri)
+{
+	$dirpath  = parse_url($request_uri, PHP_URL_PATH);
+	$resource = explode('/', $dirpath);
+
+	array_shift($resource);
+
+	return $resource;
+}
+
+
 function db_conn($hostname, $db_name, $username, $password)
 {
 	try

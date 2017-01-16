@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Posts (
 	creation_timestamp TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	ip_address_hash    BINARY(60)       NOT NULL,
 
-	name               VARCHAR(32),
+	name               VARCHAR(32) DEFAULT 'Anonymous',
 	comment            TEXT,
 	file_id            INTEGER UNSIGNED,
 
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS Files (
 	size               INTEGER UNSIGNED NOT NULL,
 	hash               BINARY(32)       NOT NULL,
 	mime_type          VARCHAR(255)     NOT NULL,
+	extension          VARCHAR(255)     NOT NULL,
 	content            MEDIUMBLOB       NOT NULL,
 
 	PRIMARY KEY (id)
