@@ -48,5 +48,7 @@ CREATE TABLE IF NOT EXISTS Files (
 	size               INTEGER UNSIGNED NOT NULL,
 	hash               BINARY(32)       NOT NULL,
 	mime_type          VARCHAR(255)     NOT NULL,
-	content            MEDIUMBLOB       NOT NULL
+	content            MEDIUMBLOB       NOT NULL,
+
+	PRIMARY KEY (id)
 ) ENGINE=MyISAM;
