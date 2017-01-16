@@ -11,6 +11,19 @@ function log_error($file, $line, $message)
 }
 
 
+function strtoint($str)
+{
+	$intval = intval($str);
+
+	if (strval($intval) !== $str)
+	{
+		return -1;
+	}
+
+	return $intval;
+}
+
+
 function db_conn($hostname, $db_name, $username, $password)
 {
 	try
@@ -30,18 +43,6 @@ function db_conn($hostname, $db_name, $username, $password)
 	}
 
 	return $connection;
-}
-
-
-function git_commit()
-{
-	if (($short_hash = shell_exec('git log -n 1 --format="%h"')) == NULL)
-	{
-		/* TODO : error reporting syslog */
-		log_error(__FILE__, __LINE__, 'unable to retrieve the current git commit');
-	}
-
-	return $short_hash;
 }
 
 
@@ -113,10 +114,10 @@ switch ($resource[0])
 			/* TODO : error handling, no file extension */
 		}
 
-		$file_id   = intval($tokens[0]);
+		$file_id   = strtoint($tokens[0]);
 		$extension = $tokens[1];
 
-		if (strval($file_id) !== $tokens[0])
+		if ($file_id === -1)
 		{
 			/* TODO : error handling, non-integer file identifier */
 		}
@@ -151,7 +152,18 @@ switch ($resource[0])
 				break;
 			case 'POST':
 				/* TODO */
+				if (count($resource) === 1)
+				{
+					// submitting a thread
+				}
+				else if (count($resource) == 2)
+				{
+					// submitting a post
+				}
 				break;
+			default:
+				/* TODO : unaccepted method */
+				break
 		}
 		break;
 }
