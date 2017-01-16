@@ -16,13 +16,13 @@ CREATE TABLE IF NOT EXISTS Boards (
 	new_branding        BOOLEAN          NOT NULL DEFAULT 1,
 
 	PRIMARY KEY (id)
-);
+) ENGINE=MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS Posts (
 	board_id           INTEGER UNSIGNED NOT NULL,
 	id                 INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-	parent_id          INTEGER UNSIGNED,
+	parent_id          INTEGER UNSIGNED DEFAULT NULL,
 
 	creation_timestamp TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	ip_address_hash    BINARY(60)       NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Posts (
 	FOREIGN KEY (board_id)  REFERENCES Boards(id) ON DELETE CASCADE,
 	FOREIGN KEY (parent_id) REFERENCES Posts(id)  ON DELETE CASCADE,
 	FOREIGN KEY (file_id)   REFERENCES Files(id)  ON DELETE CASCADE
-);
+) ENGINE=MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS Files (
@@ -49,4 +49,4 @@ CREATE TABLE IF NOT EXISTS Files (
 	hash               BINARY(32)       NOT NULL,
 	mime_type          VARCHAR(255)     NOT NULL,
 	content            MEDIUMBLOB       NOT NULL
-);
+) ENGINE=MyISAM;
