@@ -50,6 +50,11 @@ function tokenize_request_uri($request_uri)
 
 function db_conn($hostname, $db_name, $username, $password)
 {
+	$hostname = $CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'];
+	$db_name  = $CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'];
+	$username = $CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'];
+	$password = $CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD'];
+
 	try
 	{
 		$connection = new PDO(
@@ -59,6 +64,7 @@ function db_conn($hostname, $db_name, $username, $password)
 		);
 
 		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
+		$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
 	}
 	catch (PDOException $exception)
 	{
@@ -80,4 +86,3 @@ function get_client_ip_hash()
 
 	return password_hash($ip_address, PASSWORD_BLOWFISH, $options);
 }
-

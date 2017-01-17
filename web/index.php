@@ -75,12 +75,7 @@ switch ($resource[0])
 
 		try
 		{
-			$connection = db_conn(
-				$CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'],
-				$CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'],
-				$CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'],
-				$CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD']
-			);
+			$connection = db_conn();
 		}
 		catch (RuntimeException $exception)
 		{
@@ -92,10 +87,16 @@ switch ($resource[0])
 		$sql   = "SELECT mime_type, content FROM Files WHERE id = :id AND extension = :extension";
 		$query = $connection->prepare($sql);
 
-		$query->execute([
-			'id'        => $file_id,
-			'extension' => $extension
-		]);
+		$values = [
+			':id'        => $file_id,
+			':extension' => $extension
+		];
+
+		if ($query->execute($value) === FALSE)
+		{
+			error_internal_error();
+			exit(-1);
+		}
 
 		if ($query->rowCount() !== 1)
 		{
@@ -125,12 +126,7 @@ switch ($resource[0])
 			case 'GET':
 				try
 				{
-					$connection = db_conn(
-						$CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'],
-						$CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'],
-						$CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'],
-						$CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD']
-					);
+					$connection = db_conn();
 				}
 				catch (RuntimeException $exception)
 				{
