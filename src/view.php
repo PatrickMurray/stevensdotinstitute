@@ -1,7 +1,7 @@
 <?php
 
 
-request_once '../config/config.php';
+require_once '../config/config.php';
 
 
 function view_board($board, $page)
