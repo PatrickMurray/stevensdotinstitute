@@ -1,6 +1,9 @@
 <?php
 
 
+require_once '../config/config.php';
+
+
 /* 403 Forbidden */
 function error_forbidden()
 {

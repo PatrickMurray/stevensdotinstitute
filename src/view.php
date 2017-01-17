@@ -1,6 +1,9 @@
 <?php
 
 
+request_once '../config/config.php';
+
+
 function view_board($board, $page)
 {
 	return;

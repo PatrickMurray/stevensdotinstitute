@@ -1,6 +1,9 @@
 <?php
 
 
+require_once '../config/config.php';
+
+
 function log_error($file, $line, $message)
 {
 	error_log($file . ':' . $line . ': ' . $message);

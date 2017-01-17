@@ -1,6 +1,9 @@
 <?php
 
 
+require_once '../config/config.php';
+
+
 function submit_thread($board_id, $ip_address_hash, $name, $comment, $file_id)
 {
 	/* Takes in parameters for a thread, checks them, and adds them to the
