@@ -26,6 +26,8 @@ function strtoint($str)
 
 function valid_maintenance_override()
 {
+	global $CONFIGURATION;
+
 	if (!isset($_GET['override']))
 	{
 		return FALSE;
@@ -53,6 +55,8 @@ function tokenize_request_uri($request_uri)
 
 function db_conn($hostname, $db_name, $username, $password)
 {
+	global $CONFIGURATION;
+
 	$hostname = $CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'];
 	$db_name  = $CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'];
 	$username = $CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'];
@@ -81,6 +85,8 @@ function db_conn($hostname, $db_name, $username, $password)
 
 function get_client_ip_hash()
 {
+	global $CONFIGURATION;
+
 	$ip_address = $_SERVER['REMOTE_ADDR'];
 
 	$options = [
