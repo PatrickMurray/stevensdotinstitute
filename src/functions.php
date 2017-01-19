@@ -53,7 +53,7 @@ function tokenize_request_uri($request_uri)
 }
 
 
-function db_conn($hostname, $db_name, $username, $password)
+function db_conn()
 {
 	global $CONFIGURATION;
 
