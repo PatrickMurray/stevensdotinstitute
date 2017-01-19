@@ -10,7 +10,15 @@ require_once('../src/posts.php');
 require_once('../src/view.php');
 
 
-if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'] && !valid_maintenance_override())
+if (session_start() === FALSE)
+{
+	error_internal_error();
+	exit(-1);
+}
+
+
+if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'] &&
+    valid_maintenance_override() === FALSE)
 {
 	error_service_unavailable();
 	exit();

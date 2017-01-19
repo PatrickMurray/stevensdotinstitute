@@ -45,12 +45,13 @@ function valid_maintenance_override()
 		return TRUE;
 	}
 
-	if (!isset($_SESSION['AUTHENTICATION']['MAINTENANCE']))
+	if (isset($_SESSION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE']) &&
+	    $_SESSION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'] === TRUE)
 	{
-		return FALSE;
+		return TRUE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 
