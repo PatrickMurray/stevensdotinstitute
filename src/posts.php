@@ -6,6 +6,8 @@ require_once '../config/config.php';
 
 function submit_thread($board_id, $ip_address_hash, $name, $comment, $file_id)
 {
+	global $DATABASE;
+
 	/* Takes in parameters for a thread, checks them, and adds them to the
 	 * database. returns 0 on success.
 	 *
@@ -34,19 +36,9 @@ function submit_thread($board_id, $ip_address_hash, $name, $comment, $file_id)
 		$comment = 'NULL';
 	}
 
-	try
-	{
-		$connection = db_conn();
-	}
-	catch (RuntimeException $exception)
-	{
-		error_internal_error();
-		exit(-1);
-	}
-
 	$sql = 'INSERT INTO Posts(board_id, ip_address_hash, name, comment, file_id) VALUES (:board_id, :ip_address_hash, :name, :comment, :file_id)';
 	
-	if (($statement = $connection->prepare($sql)) === FALSE)
+	if (($statement = $DATABASE->prepare($sql)) === FALSE)
 	{
 		error_internal_error();
 		exit(-1);
@@ -72,6 +64,8 @@ function submit_thread($board_id, $ip_address_hash, $name, $comment, $file_id)
 
 function submit_post($board_id, $parent_id, $ip_address_hash, $name, $comment, $file_id)
 {
+	global $DATABASE;
+
 	/* Takes in parameters for a post, checks them, and adds them to the database. returns 0 on success.
 	Errors:
 	1: Insert statement failed to execute
@@ -101,7 +95,7 @@ function submit_post($board_id, $parent_id, $ip_address_hash, $name, $comment, $
 
 	$sql = 'INSERT INTO Posts(board_id, parent_id, ip_address_hash, name, comment, file_id) VALUES (:board_id, :parent_id, :ip_address_hash, :name, :comment, :file_id)';
 
-	if (($statement = $connection->prepare($sql)) === FALSE)
+	if (($statement = $DATABASE->prepare($sql)) === FALSE)
 	{
 		error_internal_error();
 		exit(-1);

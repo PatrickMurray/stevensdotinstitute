@@ -4,6 +4,7 @@
 require_once('../config/config.php');
 
 
+require_once('../src/database.php');
 require_once('../src/functions.php');
 require_once('../src/error.php');
 require_once('../src/posts.php');
@@ -22,6 +23,13 @@ if ($CONFIGURATION['ENVIRONMENT']['MAINTENANCE'] &&
 {
 	error_service_unavailable();
 	exit();
+}
+
+
+if (($DATABASE = database_connection()) === -1)
+{
+	error_internal_error();
+	exit(-1);
 }
 
 
@@ -81,19 +89,9 @@ switch ($resource[0])
 			exit(-1);
 		}
 
-		try
-		{
-			$connection = db_conn();
-		}
-		catch (RuntimeException $exception)
-		{
-			error_internal_error();
-			print("<h1>A database connection error has occurred!</h1>" . $exception->getMessage());
-			exit(-1);
-		}
 
 		$sql   = "SELECT mime_type, content FROM Files WHERE id = :id AND extension = :extension";
-		$query = $connection->prepare($sql);
+		$query = $DATABASE->prepare($sql);
 
 		$values = [
 			':id'        => $file_id,
@@ -132,16 +130,6 @@ switch ($resource[0])
 		switch ($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET':
-				try
-				{
-					$connection = db_conn();
-				}
-				catch (RuntimeException $exception)
-				{
-					error_internal_error();
-					print("<h1>A database connection error has occurred!</h1>" . $exception->getMessage());
-					exit(-1);
-				}
 				/* TODO */
 				print('Hello');
 				break;
