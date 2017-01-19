@@ -28,12 +28,24 @@ function valid_maintenance_override()
 {
 	global $CONFIGURATION;
 
-	if (!isset($_GET['override']))
+	if (!isset($_SESSION['AUTHENTICATION']['MAINTENANCE']))
 	{
-		return FALSE;
+		if (!isset($_GET['override']))
+		{
+			return FALSE;
+		}
+
+		if ($_GET['override'] !== $CONFIGURATION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'])
+		{
+			return FALSE;
+		}
+
+		$_SESSION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'] = TRUE;
+
+		return TRUE;
 	}
 
-	if ($_GET['override'] !== $CONFIGURATION['AUTHENTICATION']['MAINTENANCE']['OVERRIDE'])
+	if (!isset($_SESSION['AUTHENTICATION']['MAINTENANCE']))
 	{
 		return FALSE;
 	}
