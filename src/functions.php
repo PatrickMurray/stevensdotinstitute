@@ -100,7 +100,7 @@ function download_file($file_id, $extension)
 {
 	global $DATABASE;
 
-	$sql   = 'SELECT mime_type, content FROM Files WHERE id = :id AND extension = :extension';
+	$sql = 'SELECT mime_type, content FROM stevensdotinstitute.Files WHERE id = :id AND extension = :extension';
 	
 	if (($query = $DATABASE->prepare($sql)) === FALSE)
 	{
