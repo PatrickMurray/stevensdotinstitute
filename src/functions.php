@@ -74,10 +74,12 @@ function download_file($file_id, $extension)
 	
 	if (($query = $DATABASE->prepare($sql)) === FALSE)
 	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
 		log_error(
 			__FILE__,
 			__LINE__,
-			'failed to prepare statement: ' . $query->errorInfo()
+			'failed to prepare statement: ' . $message
 		);
 		error_internal_error();
 		exit(-1);
@@ -90,10 +92,12 @@ function download_file($file_id, $extension)
 
 	if ($query->execute($values) === FALSE)
 	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
 		log_error(
 			__FILE__,
 			__LINE__,
-			'failed to execute statement: ' . $query->errorInfo()
+			'failed to execute statement: ' . $message
 		);
 		error_internal_error();
 		exit(-1);
@@ -107,10 +111,12 @@ function download_file($file_id, $extension)
 
 	if (($result = $query->fetch()) === FALSE)
 	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
 		log_error(
 			__FILE__,
 			__LINE__,
-			'failed to fetch query: ' . $query->errorInfo()
+			'failed to fetch query: ' . $message
 		);
 		error_internal_error();
 		exit(-1);
