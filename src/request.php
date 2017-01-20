@@ -6,11 +6,21 @@ require_once('../config/config.php');
 
 function handle_request($uri)
 {
-	$resource     = tokenize_request_uri($uri);
+	$resource = tokenize_request_uri($uri);
+
+	if (count($resource) === 0)
+	{
+		handle_homepage();
+		return;
+	}
+
 	$child_entity = $resource[0];
 
 	switch ($child_entity)
 	{
+		case '':
+			handle_homepage();
+			break;
 		case 'admin':
 			handle_admin($resource);
 			break;
@@ -21,6 +31,14 @@ function handle_request($uri)
 			handle_default($resource);
 			break;
 	}
+}
+
+
+function handle_homepage()
+{
+	error_not_found();
+	exit(-1);
+	return;
 }
 
 

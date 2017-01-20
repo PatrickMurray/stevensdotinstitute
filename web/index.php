@@ -34,4 +34,4 @@ if (($DATABASE = database_connection()) === -1)
 }
 
 
-handle_request($_SERVER['REQUST_URI']);
+handle_request($_SERVER['REQUEST_URI']);
