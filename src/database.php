@@ -21,8 +21,12 @@ function database_connection()
 			$password
 		);
 
-		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
-		$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+		if ($connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1)          === FALSE ||
+		    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT) === FALSE)
+		{
+			log_error(__FILE__, __LINE__, 'failed to set attribute');
+			return -1;
+		}
 	}
 	catch (PDOException $exception)
 	{

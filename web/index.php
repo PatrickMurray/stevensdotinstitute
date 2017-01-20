@@ -14,6 +14,7 @@ require_once('../src/view.php');
 
 if (session_start() === FALSE)
 {
+	log_error(__FILE__, __LINE__, 'failed to start session');
 	error_internal_error();
 	exit(-1);
 }

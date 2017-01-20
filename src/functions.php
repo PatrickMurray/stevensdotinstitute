@@ -55,36 +55,6 @@ function valid_maintenance_override()
 }
 
 
-function db_conn()
-{
-	global $CONFIGURATION;
-
-	$hostname = $CONFIGURATION['AUTHENTICATION']['DATABASE']['HOST'];
-	$db_name  = $CONFIGURATION['AUTHENTICATION']['DATABASE']['NAME'];
-	$username = $CONFIGURATION['AUTHENTICATION']['DATABASE']['USERNAME'];
-	$password = $CONFIGURATION['AUTHENTICATION']['DATABASE']['PASSWORD'];
-
-	try
-	{
-		$connection = new PDO(
-			'mysql:host=' . $hostname . ';dbname=' . $db_name,
-			$username,
-			$password
-		);
-
-		$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
-		$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-	}
-	catch (PDOException $exception)
-	{
-		log_error(__FILE__, __LINE__, 'failed to connect to database: '. $exception->getMessage());
-		throw new RuntimeException('connection failure');
-	}
-
-	return $connection;
-}
-
-
 function tokenize_request_uri($request_uri)
 {
 	$dirpath  = parse_url($request_uri, PHP_URL_PATH);
@@ -104,7 +74,11 @@ function download_file($file_id, $extension)
 	
 	if (($query = $DATABASE->prepare($sql)) === FALSE)
 	{
-		log_error(__FILE__, __LINE__, 'failed to prepare statement');
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $query->errorInfo()
+		);
 		error_internal_error();
 		exit(-1);
 	}
@@ -116,7 +90,11 @@ function download_file($file_id, $extension)
 
 	if ($query->execute($values) === FALSE)
 	{
-		log_error(__FILE__, __LINE__, 'failed to execute statement');
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to execute statement: ' . $query->errorInfo()
+		);
 		error_internal_error();
 		exit(-1);
 	}
@@ -129,7 +107,11 @@ function download_file($file_id, $extension)
 
 	if (($result = $query->fetch()) === FALSE)
 	{
-		log_error(__FILE__, __LINE__, 'failed to fetch query');
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to fetch query: ' . $query->errorInfo()
+		);
 		error_internal_error();
 		exit(-1);
 	}
@@ -152,5 +134,12 @@ function get_client_ip_hash()
 		'cost' => $CONFIGURATION['ENVIRONMENT']['CRYPT_COST']
 	];
 
-	return password_hash($ip_address, PASSWORD_BLOWFISH, $options);
+	if (($hash = password_hash($ip_address, PASSWORD_BLOWFISH, $options)) === FALSE)
+	{
+		log_error(__FILE__, __LINE__, 'failed to hash ip address');
+		error_internal_error();
+		exit(-1);
+	}
+
+	return $hash;
 }
