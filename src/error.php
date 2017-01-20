@@ -15,7 +15,7 @@ function error_forbidden()
 /* 404 Not Found */
 function error_not_found()
 {
-	http_reponse_code(404);
+	http_response_code(404);
 	return;
 }
 
