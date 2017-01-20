@@ -100,8 +100,14 @@ function download_file($file_id, $extension)
 {
 	global $DATABASE;
 
-	$sql   = 'SELECT mime_type, content, FROM Files WHERE id = :id AND extension = :extension';
-	$query = $DATABASE->prepare($sql);
+	$sql   = 'SELECT mime_type, content FROM Files WHERE id = :id AND extension = :extension';
+	
+	if (($query = $DATABASE->prepare($sql)) === FALSE)
+	{
+		log_error(__FILE__, __LINE__, 'failed to prepare statement');
+		error_internal_error();
+		exit(-1);
+	}
 
 	$values = [
 		':id'        => $file_id,
@@ -110,6 +116,7 @@ function download_file($file_id, $extension)
 
 	if ($query->execute($values) === FALSE)
 	{
+		log_error(__FILE__, __LINE__, 'failed to execute statement');
 		error_internal_error();
 		exit(-1);
 	}
@@ -122,6 +129,7 @@ function download_file($file_id, $extension)
 
 	if (($result = $query->fetch()) === FALSE)
 	{
+		log_error(__FILE__, __LINE__, 'failed to fetch query');
 		error_internal_error();
 		exit(-1);
 	}
