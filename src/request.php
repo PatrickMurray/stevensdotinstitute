@@ -86,7 +86,7 @@ function handle_file($resource)
 }
 
 
-function handle_default()
+function handle_default($resource)
 {
 	if (2 < count($resource))
 	{
