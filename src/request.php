@@ -36,8 +36,7 @@ function handle_request($uri)
 
 function handle_homepage()
 {
-	error_not_found();
-	exit(-1);
+	view_homepage();
 	return;
 }
 
@@ -88,6 +87,8 @@ function handle_file($resource)
 
 function handle_default($resource)
 {
+	global $DATABASE;
+
 	if (2 < count($resource))
 	{
 		error_not_found();
@@ -97,8 +98,31 @@ function handle_default($resource)
 	switch ($_SERVER['REQUEST_METHOD'])
 	{
 		case 'GET':
-			/* TODO */
-			print('Hello');
+			if (0 < count($resource))
+			{
+				$board_abbreviation = $resource[1];
+			}
+
+			if (board_exists($board_abbreviation) === FALSE)
+			{
+				error_not_found();
+				exit(-1);
+			}
+
+			if (count($resource) === 1)
+			{
+				view_board($board_abbreviation);
+			}
+			else if (count($resource) === 2)
+			{
+				if (($thread_id = strtoint($resource[2])) === -1)
+				{
+					error_not_found();
+					exit(-1);
+				}
+
+				view_thread($board_abbreviation, $thread_id);
+			}
 			break;
 		case 'POST':
 			/* TODO */
@@ -106,7 +130,7 @@ function handle_default($resource)
 			{
 				// submitting a thread
 			}
-			else if (count($resource) == 2)
+			else if (count($resource) === 2)
 			{
 				// submitting a post
 			}

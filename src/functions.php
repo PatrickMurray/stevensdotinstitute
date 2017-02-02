@@ -70,7 +70,9 @@ function download_file($file_id, $extension)
 {
 	global $DATABASE;
 
-	$sql = 'SELECT mime_type, content FROM stevensdotinstitute.Files WHERE id = :id AND extension = :extension';
+	$sql  = 'SELECT mime_type, content ';
+	$sql .= 'FROM Files ';
+	$sql .= 'WHERE id = :id AND extension = :extension';
 	
 	if (($query = $DATABASE->prepare($sql)) === FALSE)
 	{
@@ -103,7 +105,8 @@ function download_file($file_id, $extension)
 		exit(-1);
 	}
 
-	if ($query->rowCount() !== 1)
+	/* if no records are returned */
+	if ($query->columnCount() === 0)
 	{
 		error_not_found();
 		exit(-1);
@@ -148,4 +151,103 @@ function get_client_ip_hash()
 	}
 
 	return $hash;
+}
+
+
+function board_exists($board_abbreviation)
+{
+	global $DATABASE;
+
+	$sql  = 'SELECT id ';
+	$sql .= 'FROM Boards ';
+	$sql .= 'WHERE abbreviation = :board_abbreviation AND ';
+	$sql .= 'published_status = :published_status';
+
+	if (($query = $DATABASE->prepare($sql)) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	$values = [
+		':board_abbreviation' => $board_abbreviation,
+		':published_status'   => 1
+	];
+
+	if ($query->execute($values) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	if ($query->columnCount() === 0)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+function thread_exists($board_abbreviation, $thread_id)
+{
+	global $DATABASE;
+
+	$sql  = 'SELECT id ';
+	$sql .= 'FROM Posts ';
+	$sql .= 'WHERE parent_id IS NULL AND id = :thread_id AND board_id = (';
+	$sql .= '  SELECT id FROM Boards WHERE abbreviation = :board_abbreviation';
+	$sql .= ')';
+
+	if (($query = $DATABASE->prepare($sql)) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	$values = [
+		':board_abbreviation' => $board_abbreviation,
+		':thread_id'          => $thread_id
+	];
+
+	if ($query->execute($values) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	if ($query->columnCount() === 0)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
 }

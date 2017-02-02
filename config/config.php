@@ -17,6 +17,10 @@ $CONFIGURATION = [
 		],
 		'MAINTENANCE' => [
 			'OVERRIDE' => NULL
+		],
+		'RECAPTCHA' => [
+			'SITE_KEY'   => NULL,
+			'SECRET_KEY' => NULL
 		]
 	]
 ];
