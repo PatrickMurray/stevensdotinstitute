@@ -100,7 +100,7 @@ function handle_default($resource)
 		case 'GET':
 			if (0 < count($resource))
 			{
-				$board_abbreviation = $resource[1];
+				$board_abbreviation = $resource[0];
 			}
 
 			if (board_exists($board_abbreviation) === FALSE)
@@ -115,7 +115,7 @@ function handle_default($resource)
 			}
 			else if (count($resource) === 2)
 			{
-				if (($thread_id = strtoint($resource[2])) === -1)
+				if (($thread_id = strtoint($resource[1])) === -1)
 				{
 					error_not_found();
 					exit(-1);
