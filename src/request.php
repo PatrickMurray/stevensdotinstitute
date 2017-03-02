@@ -43,8 +43,7 @@ function handle_homepage()
 
 function handle_admin($resource)
 {
-	error_not_found();
-	exit(-1);
+	view_admin();
 	return;
 }
 
