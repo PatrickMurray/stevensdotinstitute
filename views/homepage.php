@@ -1,5 +1,5 @@
 <h1>Homepage</h1>
-<?
+<?php
 
 
 if (!isset($boards))
