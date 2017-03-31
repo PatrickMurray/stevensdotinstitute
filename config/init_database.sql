@@ -19,6 +19,13 @@ CREATE TABLE IF NOT EXISTS Boards (
 ) ENGINE=MyISAM AUTO_INCREMENT=0;
 
 
+INSERT INTO Boards
+	(abbreviation, title, description, published_status)
+VALUES
+	("g", "technology", "vim vs. emacs flame wars", 1),
+	("a", "anime",      "weeb shit",                1);
+
+
 CREATE TABLE IF NOT EXISTS Posts (
 	board_id           INTEGER UNSIGNED NOT NULL,
 	id                 INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,

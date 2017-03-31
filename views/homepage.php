@@ -12,7 +12,7 @@ if (!isset($boards))
 	error_internal_error();
 }
 
-print_r($boards);
+var_dump($boards);
 
 
 ?>
