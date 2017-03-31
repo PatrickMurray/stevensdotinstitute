@@ -43,8 +43,26 @@ foreach ($boards as $board)
 		<div class="container main">
 			<div class="board">
 				<header>
-					<h1>/g/ - technoloGy</h1> 
-					<p>emacs vs. vim flamewars</p>
+<?php
+
+
+if (!isset($requested_board))
+{
+	log_error(
+		__FILE__,
+		__LINE__,
+		'undefined variable reference'
+	);
+	error_internal_error();
+	exit(-1);
+}
+
+
+print("\t\t\t\t\t<h1>/" . $requested_board.abbreviation . "/ - " . $requested_board.title . "</h1>\n");
+print("\t\t\t\t\t<p>" . $requested_board.description . "</p>\n");
+
+
+?>
 				</header>
 				<hr>
 				<div class="threads">
