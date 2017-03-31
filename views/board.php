@@ -25,6 +25,7 @@ if (!isset($boards))
 		'undefined variable reference'
 	);
 	error_internal_error();
+	exit(-1);
 }
 
 foreach ($boards as $board)
@@ -47,52 +48,186 @@ foreach ($boards as $board)
 				</header>
 				<hr>
 				<div class="threads">
-					<div class="thread">
-						<div class="posts">
-							<div class="post">
-								<figure>
-									<figcaption>File: <a href="assets/images/640x400.png">640x400.png</a> (294 KB, 640x400)</figcaption>
-									<img src="assets/images/640x400.png">
-								</figure>
-								<div class="content">
-									<div class="details">
-										<strong>Anonymous # TRIPCODEHERE</strong>
-										<time datetime="2016-12-31 22:29:00">2016-12-31 22:29:00</time>
-										No. 12182
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus.</p>
-								</div>
-							</div>
-							<div class="post">
-								<figure>
-									<!-- <figcaption>File: <a href="assets/images/640x400.png">640x400.png</a> (294 KB, 640x400)</figcaption> -->
-									<img src="assets/images/640x400.png">
-								</figure>
-								<div class="content">
-									<div class="details">
-										<strong>Anonymous # TRIPCODEHERE</strong>
-										<time datetime="2017-01-13 17:16:40">2017-01-13 17:16:50</time>
-										No. 12183
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus.</p>
-								</div>
-							</div>
-							<div class="post">
-								<figure>
-									<!-- <figcaption>File: <a href="assets/images/640x400.png">640x400.png</a> (294 KB, 640x400)</figcaption> -->
-									<img src="assets/images/640x400.png">
-								</figure>
-								<div class="content">
-									<div class="details">
-										<strong>Anonymous # TRIPCODEHERE</strong>
-										<time datetime="2017-01-13 17:16:40">2017-01-13 17:16:50</time>
-										No. 12183
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rutrum quam nunc, vitae posuere tortor aliquam ac. Nulla sit amet tincidunt purus.</p>
-								</div>
-							</div>
-						</div>
-					</div>
+<?php
+
+
+if (!isset($threads))
+{
+	log_error(
+		__FILE__,
+		__LINE__,
+		'undefined variable reference'
+	);
+	error_internal_error();
+	exit(-1);
+}
+
+
+if (!isset($DATABASE))
+{
+	log_error(
+		__FILE__,
+		__LINE__,
+		'undefined variable reference'
+	);
+	error_internal_error();
+	exit(-1);
+}
+
+
+foreach ($threads as $thread)
+{
+	$sql  = 'SELECT size, extension ';
+	$sql .= 'FROM Files ';
+	$sql .= 'WHERE id = :file_id ';
+	$sql .= 'LIMIT 1';
+
+	if (($query = $DATABASE->prepare($sql)) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	$values = [
+		':file_id' => $thread["thread"].file_id
+	];
+
+	if ($query->execute($values) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to execute statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	if (($image = $query->fetch()) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to fetch result: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	print("\t\t\t\t\t<div class=\"thread\">\n");
+	print("\t\t\t\t\t\t<div class=\"posts\">\n");
+
+	print("\t\t\t\t\t\t\t<div class=\"post\">\n");
+	print("\t\t\t\t\t\t\t\t<figure>\n");
+	print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $thread["thread"].file_id . "." . $image.extension . "\">" . $thread["thread"].file_id . "." . $image.extension . "</a> (" . $image.size / 1024 . " KB)</figcaption>\n");
+	print("\t\t\t\t\t\t\t\t\t<img src=\"" . $thread["thread"].file_id . "." . $image.extension . "\">\n");
+	print("\t\t\t\t\t\t\t\t</figure>\n");
+	print("\t\t\t\t\t\t\t\t<div class=\"content\">\n");
+	print("\t\t\t\t\t\t\t\t\t<div class=\"details\">\n");
+	print("\t\t\t\t\t\t\t\t\t\t<strong>" . $thread["thread"].name . "</strong>\n");
+	print("\t\t\t\t\t\t\t\t\t\t<time datetime\"" . $thread["thread"].creation_timestamp . "\">" . $thread["thread"].creation_timestamp . "</time>\n");
+	print("\t\t\t\t\t\t\t\t\t\tNo. " . $thread["thread"].id . "\n");
+	print("\t\t\t\t\t\t\t\t\t</div>\n");
+	print("\t\t\t\t\t\t\t\t\t" . $thread["thread"].comment . "\n");
+	print("\t\t\t\t\t\t\t\t</div>\n");
+	print("\t\t\t\t\t\t\t</div>\n");
+
+	if ($thread["posts"] == NULL)
+	{
+		continue;
+	}
+
+	foreach ($thread["posts"] as $post)
+	{
+		if ($post.file_id !== 0)
+		{
+			$sql  = 'SELECT size, extension ';
+			$sql .= 'FROM Files ';
+			$sql .= 'WHERE id = :file_id ';
+			$sql .= 'LIMIT 1';
+
+			if (($query = $DATABASE->prepare($sql)) === FALSE)
+			{
+				$error   = $query->errorInfo();
+				$message = $error[2];
+				log_error(
+					__FILE__,
+					__LINE__,
+					'failed to prepare statement: ' . $message
+				);
+				error_internal_error();
+				exit(-1);
+			}
+
+			$values = [
+				':file_id' => $post.file_id
+			];
+
+			if ($query->execute($values) === FALSE)
+			{
+				$error   = $query->errorInfo();
+				$message = $error[2];
+				log_error(
+					__FILE__,
+					__LINE__,
+					'failed to execute statement: ' . $message
+				);
+				error_internal_error();
+				exit(-1);
+			}
+
+			if (($image = $query->fetch()) === FALSE)
+			{
+				$error   = $query->errorInfo();
+				$message = $error[2];
+				log_error(
+					__FILE__,
+					__LINE__,
+					'failed to fetch result: ' . $message
+				);
+				error_internal_error();
+				exit(-1);
+			}
+		}
+
+		print("\t\t\t\t\t\t\t<div class=\"post\">\n");
+
+		if ($post.file_id !== 0)
+		{
+			print("\t\t\t\t\t\t\t\t<figure>\n");
+			print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $post.file_id . "." . $image.extension . "\">" . $post.file_id . "." . $image.extension . "</a> (" . $image.size / 1024 . " KB)</figcaption>\n");
+			print("\t\t\t\t\t\t\t\t\t<img src=\"" . $post.file_id . "." . $image.extension . "\">\n");
+			print("\t\t\t\t\t\t\t\t</figure>\n");
+		}
+
+		print("\t\t\t\t\t\t\t\t<div class=\"content\">\n");
+		print("\t\t\t\t\t\t\t\t\t<div class=\"details\">\n");
+		print("\t\t\t\t\t\t\t\t\t\t<strong>" . $post.name . "</strong>\n");
+		print("\t\t\t\t\t\t\t\t\t\t<time datetime=\"" . $post.creation_timestamp . "\">" . $post.creation_timestamp . "</time>\n");
+		print("\t\t\t\t\t\t\t\t\t\tNo. " . $post.id . "\n");
+		print("\t\t\t\t\t\t\t\t\t</div>\n");
+		print("\t\t\t\t\t\t\t\t\t" . $post.comment . "\n");
+		print("\t\t\t\t\t\t\t\t</div>\n");
+		print("\t\t\t\t\t\t\t</div>\n");
+	}
+
+	print("\t\t\t\t\t\t</div>\n");
+	print("\t\t\t\t\t</div>\n");
+}
+
+
+?>
 				</div>
 				<nav>
 					[1] [2] [3] [4] [5] [6] [7] [8] [9] [10]

@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Posts (
 
 	name               VARCHAR(32) DEFAULT 'Anonymous',
 	comment            TEXT,
-	file_id            INTEGER UNSIGNED,
+	file_id            INTEGER UNSIGNED DEFAULT 0,
 
 	PRIMARY KEY (board_id, id),
 	FOREIGN KEY (board_id)  REFERENCES Boards(id) ON DELETE CASCADE,
@@ -59,4 +59,4 @@ CREATE TABLE IF NOT EXISTS Files (
 	content            MEDIUMBLOB       NOT NULL,
 
 	PRIMARY KEY (id)
-) ENGINE=MyISAM AUTO_INCREMENT=0;
+) ENGINE=MyISAM AUTO_INCREMENT=1;

@@ -161,7 +161,7 @@ function view_board($board_abbreviation)
 			$threads,
 			[
 				'thread' => $result,
-				'posts'  => NULL
+				'posts'  => []
 			]
 		);
 	}
@@ -212,8 +212,6 @@ function view_board($board_abbreviation)
 			error_internal_error();
 			exit(-1);
 		}
-
-		$posts = [];
 
 		while (($result = $query->fetch()) !== FALSE)
 		{
