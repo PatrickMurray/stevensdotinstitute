@@ -58,8 +58,8 @@ if (!isset($requested_board))
 }
 
 
-print("\t\t\t\t\t<h1>/" . $requested_board.abbreviation . "/ - " . $requested_board.title . "</h1>\n");
-print("\t\t\t\t\t<p>" . $requested_board.description . "</p>\n");
+print("\t\t\t\t\t<h1>/" . $requested_board["abbreviation"] . "/ - " . $requested_board["title"] . "</h1>\n");
+print("\t\t\t\t\t<p>" . $requested_board["description"] . "</p>\n");
 
 
 ?>
@@ -148,16 +148,16 @@ foreach ($threads as $thread)
 
 	print("\t\t\t\t\t\t\t<div class=\"post\">\n");
 	print("\t\t\t\t\t\t\t\t<figure>\n");
-	print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $thread["thread"].file_id . "." . $image.extension . "\">" . $thread["thread"].file_id . "." . $image.extension . "</a> (" . $image.size / 1024 . " KB)</figcaption>\n");
-	print("\t\t\t\t\t\t\t\t\t<img src=\"" . $thread["thread"].file_id . "." . $image.extension . "\">\n");
+	print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $thread["thread"]["file_id"] . "." . $image["extension"] . "\">" . $thread["thread"]["file_id"] . "." . $image["extension"] . "</a> (" . $image["size"] / 1024 . " KB)</figcaption>\n");
+	print("\t\t\t\t\t\t\t\t\t<img src=\"" . $thread["thread"]["file_id"] . "." . $image["extension"] . "\">\n");
 	print("\t\t\t\t\t\t\t\t</figure>\n");
 	print("\t\t\t\t\t\t\t\t<div class=\"content\">\n");
 	print("\t\t\t\t\t\t\t\t\t<div class=\"details\">\n");
-	print("\t\t\t\t\t\t\t\t\t\t<strong>" . $thread["thread"].name . "</strong>\n");
-	print("\t\t\t\t\t\t\t\t\t\t<time datetime\"" . $thread["thread"].creation_timestamp . "\">" . $thread["thread"].creation_timestamp . "</time>\n");
-	print("\t\t\t\t\t\t\t\t\t\tNo. " . $thread["thread"].id . "\n");
+	print("\t\t\t\t\t\t\t\t\t\t<strong>" . $thread["thread"]["name"] . "</strong>\n");
+	print("\t\t\t\t\t\t\t\t\t\t<time datetime\"" . $thread["thread"]["creation_timestamp"] . "\">" . $thread["thread"]["creation_timestamp"] . "</time>\n");
+	print("\t\t\t\t\t\t\t\t\t\tNo. " . $thread["thread"]["id"] . "\n");
 	print("\t\t\t\t\t\t\t\t\t</div>\n");
-	print("\t\t\t\t\t\t\t\t\t" . $thread["thread"].comment . "\n");
+	print("\t\t\t\t\t\t\t\t\t" . $thread["thread"]["comment"] . "\n");
 	print("\t\t\t\t\t\t\t\t</div>\n");
 	print("\t\t\t\t\t\t\t</div>\n");
 
@@ -224,18 +224,18 @@ foreach ($threads as $thread)
 		if ($post.file_id !== 0)
 		{
 			print("\t\t\t\t\t\t\t\t<figure>\n");
-			print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $post.file_id . "." . $image.extension . "\">" . $post.file_id . "." . $image.extension . "</a> (" . $image.size / 1024 . " KB)</figcaption>\n");
-			print("\t\t\t\t\t\t\t\t\t<img src=\"" . $post.file_id . "." . $image.extension . "\">\n");
+			print("\t\t\t\t\t\t\t\t\t<figcaption>File: <a href=\"/file/" . $post["file_id"] . "." . $image["extension"] . "\">" . $post["file_id"] . "." . $image["extension"] . "</a> (" . $image["size"] / 1024 . " KB)</figcaption>\n");
+			print("\t\t\t\t\t\t\t\t\t<img src=\"" . $post["file_id"] . "." . $image["extension"] . "\">\n");
 			print("\t\t\t\t\t\t\t\t</figure>\n");
 		}
 
 		print("\t\t\t\t\t\t\t\t<div class=\"content\">\n");
 		print("\t\t\t\t\t\t\t\t\t<div class=\"details\">\n");
-		print("\t\t\t\t\t\t\t\t\t\t<strong>" . $post.name . "</strong>\n");
-		print("\t\t\t\t\t\t\t\t\t\t<time datetime=\"" . $post.creation_timestamp . "\">" . $post.creation_timestamp . "</time>\n");
-		print("\t\t\t\t\t\t\t\t\t\tNo. " . $post.id . "\n");
+		print("\t\t\t\t\t\t\t\t\t\t<strong>" . $post["name"] . "</strong>\n");
+		print("\t\t\t\t\t\t\t\t\t\t<time datetime=\"" . $post["creation_timestamp"] . "\">" . $post["creation_timestamp"] . "</time>\n");
+		print("\t\t\t\t\t\t\t\t\t\tNo. " . $post["id"] . "\n");
 		print("\t\t\t\t\t\t\t\t\t</div>\n");
-		print("\t\t\t\t\t\t\t\t\t" . $post.comment . "\n");
+		print("\t\t\t\t\t\t\t\t\t" . $post["comment"] . "\n");
 		print("\t\t\t\t\t\t\t\t</div>\n");
 		print("\t\t\t\t\t\t\t</div>\n");
 	}
