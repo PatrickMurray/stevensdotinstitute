@@ -135,6 +135,21 @@ body > header nav li sup {
 }
 
 
+.board header a.start_thread {
+	font-size: 2em;
+}
+
+
+.board header noscript {
+	display: none;
+}
+
+
+.board header noscript.start_thread {
+	display: initial;
+}
+
+
 .board .thread .posts .post {
 	overflow: auto;
 	margin-bottom: 0.5em;

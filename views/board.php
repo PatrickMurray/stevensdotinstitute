@@ -65,6 +65,20 @@ print("\t\t\t\t\t<p>" . $requested_board["description"] . "</p>\n");
 ?>
 				</header>
 				<hr>
+				[<a href="" class="start_thread">Start A New Thread<a/>]
+				<noscript>
+					<form method="POST">
+						<label for="name">Name</label>
+						<input name="name" type="text" placeholder="Anonymous">
+
+						<label for="comment">Comment</label>
+						<textarea name="comment"></textarea>
+
+						<label for="file">File</label>
+						<input name="file" type="file" accept="image/*">
+					</form>
+				</noscript>
+				<hr>
 				<div class="threads">
 <?php
 
