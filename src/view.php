@@ -128,19 +128,6 @@ function view_board($board_abbreviation)
 		);
 	}
 
-	if ($result === FALSE)
-	{
-		$error   = $query->errorInfo();
-		$message = $error[2];
-		log_error(
-			__FILE__,
-			__LINE__,
-			'failed to fetch query: ' . $message
-		);
-		error_internal_error();
-		exit(-1);
-	}
-
 	foreach ($threads as $thread)
 	{
 		$sql  = 'SELECT id, creation_timestamp, name, comment, file_id ';
@@ -193,19 +180,6 @@ function view_board($board_abbreviation)
 		while (($result = $query->fetch()) !== FALSE)
 		{
 			array_push($thread['posts'], $result);
-		}
-
-		if ($result === FALSE)
-		{
-			$error   = $query->errorInfo();
-			$message = $error[2];
-			log_error(
-				__FILE__,
-				__LINE__,
-				'failed to fetch query: ' . $message
-			);
-			error_internal_error();
-			exit(-1);
 		}
 	}
 
@@ -331,19 +305,6 @@ function view_thread($board_abbreviation, $thread_id)
 	while (($result = $query->fetch()) !== FALSE)
 	{
 		array_push($thread['posts'], $result);
-	}
-
-	if ($result === FALSE)
-	{
-		$error   = $query->errorInfo();
-		$message = $error[2];
-		log_error(
-			__FILE__,
-			__LINE__,
-			'failed to fetch query: ' . $message
-		);
-		error_internal_error();
-		exit(-1);
 	}
 
 	require_once('../views/thread.php');

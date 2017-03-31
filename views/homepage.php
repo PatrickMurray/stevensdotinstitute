@@ -30,7 +30,7 @@ if (!isset($boards))
 
 foreach ($boards as $board)
 {
-	print("\t\t\t\t\t\t<li><a href=\"" . $board["abbreviation"] . "\">/" . $board["abbreviation"] . "/</a></li>");
+	print("\t\t\t\t\t\t<li><a href=\"" . $board["abbreviation"] . "\">/" . $board["abbreviation"] . "/</a></li>\n");
 }
 
 
