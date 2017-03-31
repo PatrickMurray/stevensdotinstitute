@@ -65,6 +65,44 @@ function view_board($board_abbreviation)
 {
 	global $DATABASE;
 
+	$sql  = 'SELECT abbreviation, title ';
+	$sql .= 'FROM Boards ';
+	$sql .= 'WHERE published_status = 1';
+
+	if (($query = $DATABASE->prepare($sql)) === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to prepare statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	if ($query->execute() === FALSE)
+	{
+		$error   = $query->errorInfo();
+		$message = $error[2];
+		log_error(
+			__FILE__,
+			__LINE__,
+			'failed to execute statement: ' . $message
+		);
+		error_internal_error();
+		exit(-1);
+	}
+
+	$boards = [];
+
+	while (($result = $query->fetch()) !== FALSE)
+	{
+		array_push($boards, $result);
+	}
+
+
 	$sql  = 'SELECT id, creation_timestamp, name, comment, file_id ';
 	$sql .= 'FROM Posts ';
 	$sql .= 'WHERE parent_id IS NULL AND board_id = (';
