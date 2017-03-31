@@ -14,7 +14,7 @@
 
 				<nav>
 					<ul>
-<?
+<?php
 
 
 if (!isset($boards))
