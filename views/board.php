@@ -67,14 +67,16 @@ print("\t\t\t\t\t<p>" . $requested_board["description"] . "</p>\n");
 				<hr>
 				<h2>Start A New Thread</h2>
 				<form method="POST">
-					<label for="name">Name</label>
-					<input name="name" type="text" placeholder="Anonymous">
+					<label for="name">Name</label><br>
+					<input name="name" type="text" placeholder="Anonymous"><br>
 
-					<label for="comment">Comment</label>
-					<textarea name="comment"></textarea>
+					<label for="comment">Comment</label><br>
+					<textarea name="comment"></textarea><br>
 
-					<label for="file">File</label>
-					<input name="file" type="file" accept="image/*">
+					<label for="file">File</label><br>
+					<input name="file" type="file" accept="image/*"><br>
+					
+					<input type="submit">
 				</form>
 				<hr>
 				<div class="threads">
